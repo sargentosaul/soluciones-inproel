@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Soluciones Inproel</title>
+<style>
+  :root { --bg: #f4f6f8; --card: #fff; --text: #1d2733; --muted: #5d6b7a; --border: #d9e0e7; --accent: #1f5f99; --rojo: #c62828; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #12171c; --card: #1b2229; --text: #e6ebf0; --muted: #9aa7b4; --border: #2e3943; --accent: #5a9bd8; --rojo: #ef5350; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px;
+         background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  form { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; width: 100%; max-width: 380px; }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  p { margin: 0 0 18px; color: var(--muted); font-size: 0.95rem; }
+  input[type=password] { font: inherit; width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+                         background: var(--card); color: var(--text); }
+  label.recordar { display: flex; gap: 8px; align-items: center; margin: 12px 0 18px; font-size: 0.9rem; color: var(--muted); }
+  button { font: inherit; font-weight: 600; width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--accent);
+           background: var(--accent); color: #fff; cursor: pointer; }
+  button:disabled { opacity: 0.6; cursor: wait; }
+  .error { color: var(--rojo); font-weight: 600; margin: 12px 0 0; font-size: 0.95rem; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<form id="candado" hidden>
+  <h1>Soluciones Inproel</h1>
+  <p>Ingresa la clave del equipo para continuar.</p>
+  <input type="password" id="clave" aria-label="Clave" placeholder="Clave" autocomplete="current-password" required>
+  <label class="recordar"><input type="checkbox" id="recordar" checked> Recordar en este computador</label>
+  <button type="submit" id="entrar">Entrar</button>
+  <div class="error" id="error" hidden>Clave incorrecta.</div>
+</form>
+<script>
+"use strict";
+const DATOS = {"sal": "rtYkLmr9p46Hg+AOM/X4eQ==", "iter": 600000, "iv": "gD0xpJHbegv0cORL", "ct": "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"};
+const LLAVE = "soluciones-llave";
+const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+const a64 = (u) => btoa(String.fromCharCode(...u));
+
+function guardada() {
+  try { return sessionStorage.getItem(LLAVE) || localStorage.getItem(LLAVE); } catch (e) { return null; }
+}
+function olvidar() {
+  try { sessionStorage.removeItem(LLAVE); localStorage.removeItem(LLAVE); } catch (e) { /* nada */ }
+}
+async function derivar(clave) {
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(clave), "PBKDF2", false, ["deriveBits"]);
+  const bits = await crypto.subtle.deriveBits(
+    { name: "PBKDF2", salt: b64(DATOS.sal), iterations: DATOS.iter, hash: "SHA-256" }, base, 256);
+  return new Uint8Array(bits);
+}
+async function descifrar(llave) {
+  const k = await crypto.subtle.importKey("raw", llave, "AES-GCM", false, ["decrypt"]);
+  const claro = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(DATOS.iv) }, k, b64(DATOS.ct));
+  return new TextDecoder().decode(claro);
+}
+function mostrar(html) { document.open(); document.write(html); document.close(); }
+
+(async () => {
+  const g = guardada();
+  if (g) {
+    try { mostrar(await descifrar(b64(g))); return; } catch (e) { olvidar(); }
+  }
+  const form = document.getElementById("candado");
+  form.hidden = false;
+  document.getElementById("clave").focus();
+  form.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const boton = document.getElementById("entrar");
+    boton.disabled = true;
+    document.getElementById("error").hidden = true;
+    try {
+      const llave = await derivar(document.getElementById("clave").value);
+      const html = await descifrar(llave);
+      try {
+        (document.getElementById("recordar").checked ? localStorage : sessionStorage).setItem(LLAVE, a64(llave));
+      } catch (e) { /* sin almacenamiento: habra que escribir la clave en cada pagina */ }
+      mostrar(html);
+    } catch (e) {
+      document.getElementById("error").hidden = false;
+      boton.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
